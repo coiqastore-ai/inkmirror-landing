@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ink Mirror | AI генератор эскизов тату</title>
+    <meta name="description" content="Преврати свою идею в уникальный эскиз тату за 1 минуту с помощью искусственного интеллекта. Быстро, просто, профессионально.">
+    <meta name="keywords" content="тату, эскиз, генератор, AI, искусственный интеллект, дизайн татуировки, Ink Mirror">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Ink Mirror | AI генератор эскизов тату">
+    <meta property="og:description" content="Преврати свою идею в уникальный эскиз тату за 1 минуту с помощью ИИ">
+    <meta property="og:image" content="images/og-image.jpg">
+    <meta property="og:url" content="https://coiqastore-ai.github.io/inkmirror-landing/">
+    <meta property="og:type" content="website">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="images/logo.svg" alt="Ink Mirror" width="40" height="40">
+                <span>Ink Mirror</span>
+            </a>
+            <div class="nav-links">
+                <a href="#how-it-works">Как работает</a>
+                <a href="#gallery">Галерея</a>
+                <a href="#pricing">Цены</a>
+                <a href="#faq">FAQ</a>
+                <a href="#platforms">Платформы</a>
+                <a href="https://t.me/mynewtattoobot" class="btn btn-outline" target="_blank">Попробовать бесплатно</a>
+            </div>
+            <button class="menu-toggle" aria-label="Меню">☰</button>
+        </div>
+    </nav>
+
+    <!-- Герой-секция -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Преврати свою идею в <span class="highlight">уникальный эскиз тату</span> за 1 минуту</h1>
+                <p class="hero-subtitle">AI-генератор, который создаёт профессиональные дизайны по вашему описанию. Никаких шаблонов — только персонализированные работы.</p>
+                <div class="hero-cta">
+                    <a href="https://t.me/mynewtattoobot" class="btn btn-primary btn-large" target="_blank">🎨 Создать эскиз в Telegram</a>
+                    <a href="#how-it-works" class="btn btn-outline btn-large">Как это работает?</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">1000+</span>
+                        <span class="stat-label">сгенерированных эскизов</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">4.8★</span>
+                        <span class="stat-label">средний рейтинг</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">довольных клиентов</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-placeholder">
+                    <div class="placeholder-text">Пример процесса: Idea → Эскиз → Результат</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Как работает -->
+    <section id="how-it-works" class="section how-it-works">
+        <div class="container">
+            <h2 class="section-title">Как это работает?</h2>
+            <p class="section-subtitle">3 простых шага от идеи до готового эскиза</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Опиши идею</h3>
+                    <p class="step-description">Напиши, что хочешь нарисовать. Например: "дракон на плече в стиле трайбл" или "цветок лотоса на запястье"</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Выбери стиль</h3>
+                    <p class="step-description">Подбери подходящий стиль: реализм, минимализм, акварель, трайбл, олд скул и другие</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Получи результат</h3>
+                    <p class="step-description">ИИ создаст уникальный эскиз за 1 минуту. Можешь редактировать или сразу отправлять мастеру</p>
+                </div>
+            </div>
+            <div class="centered">
+                <a href="https://t.me/mynewtattoobot" class="btn btn-primary" target="_blank">Попробовать прямо сейчас</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Галерея работ -->
+    <section id="gallery" class="section gallery">
+        <div class="container">
+            <h2 class="section-title">Галерея работ</h2>
+            <p class="section-subtitle">Примеры эскизов, созданных нашими пользователями</p>
+            <div class="gallery-grid">
+                <!-- Галерея будет загружена через JavaScript -->
+                <div class="loading-gallery">Загрузка галереи...</div>
+            </div>
+            <div class="centered">
+                <a href="#upload-gallery" class="btn btn-outline">Загрузить свои работы в галерею</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Цены и пакеты -->
+    <section id="pricing" class="section pricing">
+        <div class="container">
+            <h2 class="section-title">Цены и пакеты</h2>
+            <p class="section-subtitle">Выбери подходящий пакет для своих идей</p>
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Старт</h3>
+                        <div class="price">249₽</div>
+                        <p class="price-subtitle">10 генераций</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ 10 уникальных эскизов</li>
+                        <li>✓ Все стили доступны</li>
+                        <li>✓ Редактирование готовых работ</li>
+                        <li>✓ Сохранение в галерее</li>
+                        <li>✗ PDF-экспорт</li>
+                    </ul>
+                    <a href="https://t.me/mynewtattoobot" class="btn btn-outline" target="_blank">Выбрать пакет</a>
+                </div>
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Хит продаж</div>
+                    <div class="pricing-header">
+                        <h3>Топ</h3>
+                        <div class="price">549₽</div>
+                        <p class="price-subtitle">30 генераций</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ 30 уникальных эскизов</li>
+                        <li>✓ Все стили доступны</li>
+                        <li>✓ Редактирование готовых работ</li>
+                        <li>✓ Сохранение в галерее</li>
+                        <li>✓ PDF-экспорт результатов</li>
+                    </ul>
+                    <a href="https://t.me/mynewtattoobot" class="btn btn-primary" target="_blank">Выбрать пакет</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Профи</h3>
+                        <div class="price">1490₽</div>
+                        <p class="price-subtitle">100 генераций</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ 100 уникальных эскизов</li>
+                        <li>✓ Все стили доступны</li>
+                        <li>✓ Редактирование готовых работ</li>
+                        <li>✓ Сохранение в галерее</li>
+                        <li>✓ PDF-экспорт + приоритетная поддержка</li>
+                    </ul>
+                    <a href="https://t.me/mynewtattoobot" class="btn btn-outline" target="_blank">Выбрать пакет</a>
+                </div>
+            </div>
+            <div class="centered">
+                <p class="note">Первый эскиз — бесплатно для новых пользователей</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Платформы -->
+    <section id="platforms" class="section platforms">
+        <div class="container">
+            <h2 class="section-title">Наши платформы</h2>
+            <p class="section-subtitle">Выбери удобный способ использования</p>
+            <div class="platform-cards">
+                <a href="https://t.me/mynewtattoobot" class="platform-card" target="_blank">
+                    <div class="platform-icon">✈️</div>
+                    <h3>Telegram бот</h3>
+                    <p>Полный функционал: генерация, редактирование, оплата, галерея</p>
+                    <div class="platform-cta">@mynewtattoobot →</div>
+                </a>
+                <a href="https://vk.com/club238303460" class="platform-card" target="_blank">
+                    <div class="platform-icon">👥</div>
+                    <h3>Группа VK</h3>
+                    <p>Примеры работ, сообщество, анонсы новых функций</p>
+                    <div class="platform-cta">Ink Mirror | Эскизы тату →</div>
+                </a>
+                <div class="platform-card">
+                    <div class="platform-icon">🌐</div>
+                    <h3>Лендинг</h3>
+                    <p>Общая информация, галерея, инструкции (вы здесь)</p>
+                    <div class="platform-cta">coiqastore-ai.github.io/inkmirror-landing</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section faq">
+        <div class="container">
+            <h2 class="section-title">Часто задаваемые вопросы</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <h3 class="faq-question">Сколько стоит первый эскиз?</h3>
+                    <p class="faq-answer">Первый эскиз — абсолютно бесплатно для новых пользователей. Просто запусти бота и опиши свою идею.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Какие стили доступны?</h3>
+                    <p class="faq-answer">Реализм, минимализм, акварель, трайбл, олд скул, нью скул, геометрия, дотворк и другие.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Можно ли редактировать готовый эскиз?</h3>
+                    <p class="faq-answer">Да, после генерации можно вносить правки: изменить цвет, размер, детализацию или добавить элементы.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Как оплатить пакет?</h3>
+                    <p class="faq-answer">Оплата проходит внутри Telegram бота через ЮKassa. Доступны карты, электронные кошельки, СБП.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Можно ли использовать эскиз у тату-мастера?</h3>
+                    <p class="faq-answer">Конечно! Мы создаём профессиональные эскизы, готовые для переноса на кожу. Можно экспортировать в PDF.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <a href="#" class="logo">
+                        <img src="images/logo.svg" alt="Ink Mirror" width="40" height="40">
+                        <span>Ink Mirror</span>
+                    </a>
+                    <p>AI-генератор эскизов тату.<br>Превращаем идеи в профессионалные дизайны с 2025 года.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Платформы</h4>
+                    <ul>
+                        <li><a href="https://t.me/mynewtattoobot" target="_blank">Telegram: @mynewtattoobot</a></li>
+                        <li><a href="https://vk.com/club238303460" target="_blank">VK: Ink Mirror | Эскизы тату</a></li>
+                        <li><a href="#">Лендинг: coiqastore-ai.github.io/inkmirror-landing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li>По вопросам сотрудничества: <a href="mailto:coiqastore.ai@gmail.com">coiqastore.ai@gmail.com</a></li>
+                        <li>Техническая поддержка: через Telegram бота</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Подпишись</h4>
+                    <p>Будь в курсе новых функций и акций</p>
+                    <div class="social-links">
+                        <a href="https://t.me/mynewtattoobot" target="_blank">Telegram</a>
+                        <a href="https://vk.com/club238303460" target="_blank">VK</a>
+                        <a href="#" target="_blank">Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Ink Mirror. Все права защищены.</p>
+                <p><a href="#">Политика конфиденциальности</a> • <a href="#">Условия использования</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/gallery-loader.js"></script>
+</body>
+</html>
