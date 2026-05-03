@@ -69,7 +69,7 @@ git push -u origin gh-pages
 
 - **Telegram бот:** [@mynewtattoobot](https://t.me/mynewtattoobot)
 - **VK группа:** [Ink Mirror | Эскизы тату](https://vk.com/club238303460)
-- **Лендинг:** https://inkmirror.github.io
+- **Лендинг:** https://coiqastore-ai.github.io/inkmirror-landing/
 - **Бренд-бук:** `/opt/beget/bots/obsidian/obs/knowledge-base/brands/ink-mirror/`
 
 ## 📊 SEO
