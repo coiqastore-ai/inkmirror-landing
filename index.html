@@ -1,279 +1,1385 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ink Mirror | AI генератор эскизов тату</title>
-    <meta name="description" content="Преврати свою идею в уникальный эскиз тату за 1 минуту с помощью искусственного интеллекта. Быстро, просто, профессионально.">
-    <meta name="keywords" content="тату, эскиз, генератор, AI, искусственный интеллект, дизайн татуировки, Ink Mirror">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-    <!-- Open Graph -->
-    <meta property="og:title" content="Ink Mirror | AI генератор эскизов тату">
-    <meta property="og:description" content="Преврати свою идею в уникальный эскиз тату за 1 минуту с помощью ИИ">
-    <meta property="og:image" content="images/og-image.jpg">
-    <meta property="og:url" content="https://inkmirror.github.io">
-    <meta property="og:type" content="website">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ink Mirror | AI генератор эскизов тату</title>
+  <meta name="description" content="Преврати свою идею в уникальный эскиз тату за 1 минуту с помощью ИИ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap&subset=cyrillic&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Ink Mirror | AI генератор эскизов тату">
+  <meta property="og:description" content="Преврати свою идею в уникальный эскиз тату за 1 минуту с помощью ИИ">
+  <meta property="og:image" content="images/og-image.jpg">
+  <meta property="og:url" content="https://coiqastore-ai.github.io/inkmirror-landing/">
+  <meta property="og:type" content="website">
+  <style>
+    /* ===== CSS Variables ===== */
+    :root {
+      --bg: #0A0A0A;
+      --font-heading-fallback: Georgia, "Times New Roman", serif;
+      --font-body-fallback: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      --bg-card: #111111;
+      --bg-card-hover: #1a1a1a;
+      --copper: #b87333;
+      --copper-light: #d49455;
+      --copper-dark: #8a5522;
+      --accent: #b87333;
+      --text: #e8e0d8;
+      --text-muted: #8a8078;
+      --text-heading: #f5f0eb;
+      --vk-blue: #4680C2;
+      --tg-blue: #0088cc;
+      --font-heading: 'Playfair Display', var(--font-heading-fallback);
+      --font-body: 'Inter', var(--font-body-fallback);
+      --font-mono: Menlo, Monaco, Consolas, monospace;
+      --radius: 16px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0,0,0,.4);
+      --transition: .3s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ===== Animated Gradient Background (CSS-only - lightweight) ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(184,115,51,.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 30% 80%, rgba(212,148,85,.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 70%, rgba(138,85,34,.04) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 50%, rgba(10,10,10,0) 40%, #0A0A0A 100%);
+      animation: bg-pulse 8s ease-in-out infinite alternate;
+    }
+    @keyframes bg-pulse {
+      0% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+
+    /* ===== Layout ===== */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+    .centered { text-align: center; }
+
+    /* ===== Typography ===== */
+    h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--text-heading); line-height: 1.2; }
+    .accent { color: var(--copper); }
+    .highlight {
+      background: linear-gradient(135deg, var(--copper), var(--copper-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .copper-line { width: 60px; height: 2px; background: linear-gradient(90deg, var(--copper), transparent); }
+    .copper-line.centered { margin-left: auto; margin-right: auto; }
+
+    /* ===== Buttons ===== */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-family: var(--font-body);
+      font-weight: 600; font-size: .95rem;
+      text-decoration: none;
+      transition: var(--transition);
+      border: none; cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--copper), var(--copper-light));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(184,115,51,.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(184,115,51,.45); }
+    .btn-copper {
+      background: transparent;
+      color: var(--copper);
+      border: 1.5px solid var(--copper);
+    }
+    .btn-copper:hover { background: rgba(184,115,51,.1); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid rgba(255,255,255,.15);
+    }
+    .btn-outline:hover { border-color: var(--copper); color: var(--copper); }
+    .btn-large { padding: 16px 36px; font-size: 1.05rem; }
+
+    /* ===== Payment Buttons ===== */
+    .btn-vk {
+      background: linear-gradient(135deg, var(--vk-blue), #5b9bd5);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(70,128,194,.3);
+    }
+    .btn-vk:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(70,128,194,.45); }
+    .btn-tg {
+      background: linear-gradient(135deg, var(--tg-blue), #00a3e6);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(0,136,204,.3);
+    }
+    .btn-tg:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(0,136,204,.45); }
+
+    /* ===== Navbar ===== */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 0;
+      background: rgba(10,10,10,.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    .navbar .container { display: flex; align-items: center; justify-content: space-between; }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--text-heading);
+      font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700;
+    }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none;
+      font-size: .9rem; font-weight: 500;
+      transition: var(--transition);
+    }
+    .nav-links a:hover { color: var(--copper); }
+    .menu-toggle {
+      display: none;
+      background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer;
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      padding: 160px 0 100px;
+      position: relative;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: .8rem; font-weight: 600;
+      color: var(--copper);
+      border: 1px solid rgba(184,115,51,.3);
+      background: rgba(184,115,51,.08);
+      margin-bottom: 24px;
+      letter-spacing: .03em;
+    }
+    .hero-title { font-size: 3.5rem; font-weight: 800; margin-bottom: 24px; }
+    .hero-subtitle { font-size: 1.1rem; color: var(--text-muted); max-width: 480px; margin-bottom: 36px; line-height: 1.7; }
+    .hero-cta { display: flex; gap: 16px; margin-bottom: 48px; flex-wrap: wrap; }
+    .hero-stats { display: flex; gap: 40px; }
+    .hero-stat-num { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; color: var(--copper); }
+    .hero-stat-label { font-size: .8rem; color: var(--text-muted); margin-top: 4px; }
+
+    .hero-visual { display: flex; justify-content: center; align-items: center; position: relative; }
+    .hero-ring {
+      position: absolute; width: 380px; height: 380px;
+      border-radius: 50%;
+      border: 1px solid rgba(184,115,51,.15);
+      animation: ring-pulse 4s ease-in-out infinite;
+    }
+    @keyframes ring-pulse {
+      0%,100% { transform: scale(1); opacity: .3; }
+      50% { transform: scale(1.08); opacity: .6; }
+    }
+    .hero-frame {
+      width: 300px; height: 380px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(184,115,51,.2);
+      background: rgba(17,17,17,.8);
+      backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .hero-frame-inner { text-align: center; padding: 40px; }
+    .hero-icon { font-size: 3rem; margin-bottom: 20px; }
+    .hero-quote {
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ===== Sections ===== */
+    .section { padding: 100px 0; position: relative; }
+    .section-dark { background: rgba(17,17,17,.5); }
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--copper);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 16px; }
+    .section-subtitle { font-size: 1.05rem; color: var(--text-muted); max-width: 500px; margin: 0 auto; }
+
+    /* ===== Generator ===== */
+    .generator-section { padding-top: 80px; }
+    .generator-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(320px, 1.15fr);
+      gap: 48px;
+      align-items: center;
+    }
+    .generator-copy { margin: 0; text-align: left; max-width: 460px; }
+    .generator-panel {
+      background: var(--bg-card);
+      border: 1px solid rgba(184,115,51,.18);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .generator-topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--text-muted);
+      font-size: .86rem;
+      margin-bottom: 18px;
+    }
+    .generator-topline strong { color: var(--copper-light); }
+    .generator-label {
+      display: block;
+      color: var(--text-heading);
+      font-size: .86rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .generator-textarea,
+    .generator-select {
+      width: 100%;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+      transition: var(--transition);
+    }
+    .generator-textarea { min-height: 140px; resize: vertical; padding: 14px 16px; }
+    .generator-select { height: 52px; padding: 0 14px; }
+    .generator-select option { background: #111; color: var(--text); }
+    .generator-textarea:focus,
+    .generator-select:focus { border-color: var(--copper); }
+    .generator-textarea::placeholder { color: var(--text-muted); }
+    .generator-controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: end;
+      margin-top: 16px;
+    }
+    .generator-uploads {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .upload-tile {
+      display: block;
+      min-height: 104px;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      border: 1px dashed rgba(255,255,255,.16);
+      background: rgba(255,255,255,.03);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .upload-tile:hover { border-color: rgba(184,115,51,.55); }
+    .upload-tile input { display: none; }
+    .upload-title {
+      display: block;
+      color: var(--text-heading);
+      font-size: .84rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .upload-hint {
+      display: block;
+      color: var(--text-muted);
+      font-size: .76rem;
+      line-height: 1.35;
+    }
+    .upload-tile.has-file {
+      border-color: rgba(184,115,51,.55);
+      background: rgba(184,115,51,.08);
+    }
+    .generator-status {
+      min-height: 24px;
+      margin-top: 16px;
+      color: var(--text-muted);
+      font-size: .9rem;
+    }
+    .generator-status.error { color: #ff9b8c; }
+    .generator-status.success { color: var(--copper-light); }
+    .generation-result {
+      margin-top: 18px;
+      overflow: hidden;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.2);
+    }
+    .generation-result img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      background: #080808;
+    }
+    .generation-result-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 14px;
+      font-size: .9rem;
+      color: var(--text-muted);
+    }
+    .generation-result-footer a { color: var(--copper-light); text-decoration: none; }
+    .generation-result-footer a:hover { text-decoration: underline; }
+
+    /* ===== Steps ===== */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 48px; }
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      transition: var(--transition);
+      position: relative;
+    }
+    .step-card:hover { border-color: rgba(184,115,51,.2); transform: translateY(-4px); }
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--copper);
+      letter-spacing: .1em;
+      margin-bottom: 20px;
+    }
+    .step-icon { font-size: 2rem; margin-bottom: 16px; }
+    .step-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 12px; }
+    .step-desc { font-size: .9rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ===== Gallery ===== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .gallery-item {
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.06);
+      background: var(--bg-card);
+      transition: var(--transition);
+    }
+    .gallery-item:hover { border-color: rgba(184,115,51,.3); transform: scale(1.02); }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .gallery-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: var(--text-muted);
+    }
+    .gallery-placeholder span { font-size: 2.5rem; margin-bottom: 8px; }
+    .gallery-placeholder p { font-size: .85rem; }
+    .gallery-note {
+      text-align: center;
+      margin-top: 32px;
+      font-size: .9rem;
+      color: var(--text-muted);
+    }
+    .gallery-note a { color: var(--copper); text-decoration: none; }
+    .gallery-note a:hover { text-decoration: underline; }
+
+    /* ===== Pricing ===== */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+    }
+    .pricing-card:hover { border-color: rgba(184,115,51,.2); transform: translateY(-4px); }
+    .pricing-card.featured {
+      border-color: var(--copper);
+      box-shadow: 0 0 40px rgba(184,115,51,.15);
+    }
+    .pricing-badge {
+      position: absolute;
+      top: -12px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--copper), var(--copper-light));
+      color: #fff;
+      font-size: .7rem; font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 50px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .pricing-name { font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; }
+    .pricing-price { font-size: 2.2rem; font-weight: 800; color: var(--copper); margin-bottom: 4px; }
+    .pricing-sub { font-size: .85rem; color: var(--text-muted); margin-bottom: 24px; }
+    .pricing-features { list-style: none; text-align: left; margin-bottom: 28px; }
+    .pricing-features li {
+      padding: 8px 0;
+      font-size: .85rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .check { color: var(--copper); font-weight: 700; }
+    .cross { color: #555; }
+    .pricing-actions { display: flex; flex-direction: column; gap: 8px; }
+    .pricing-actions .btn { width: 100%; justify-content: center; }
+    .pricing-note {
+      text-align: center;
+      margin-top: 32px;
+      font-size: .9rem;
+      color: var(--text-muted);
+    }
+
+    /* ===== Platforms ===== */
+    .platform-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .platform-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      text-decoration: none;
+      color: var(--text);
+      transition: var(--transition);
+      display: block;
+    }
+    .platform-card:hover { border-color: rgba(184,115,51,.2); transform: translateY(-4px); }
+    .platform-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .platform-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; }
+    .platform-desc { font-size: .9rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
+    .platform-cta { font-size: .85rem; color: var(--copper); font-weight: 500; }
+
+    /* ===== YooKassa Section ===== */
+    .vkpay-section {
+      background: rgba(70,128,194,.03);
+      border: 1px solid rgba(70,128,194,.15);
+      border-radius: var(--radius);
+      padding: 48px 36px;
+      margin-top: 48px;
+      text-align: center;
+    }
+    .vkpay-section h3 { font-size: 1.4rem; margin-bottom: 12px; }
+    .vkpay-section p { color: var(--text-muted); margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .vkpay-methods { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* ===== FAQ ===== */
+    .faq-list { max-width: 720px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .faq-q {
+      padding: 20px 0;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      color: var(--text-heading);
+      transition: var(--transition);
+    }
+    .faq-q:hover { color: var(--copper); }
+    .faq-q::after { content: '+'; font-size: 1.4rem; color: var(--copper); transition: var(--transition); }
+    .faq-item.open .faq-q::after { content: '-'; }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      font-size: .9rem; color: var(--text-muted);
+      line-height: 1.7;
+      transition: max-height .3s ease, padding .3s ease;
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding-bottom: 20px; }
+
+    /* ===== Footer ===== */
+    .footer {
+      padding: 60px 0 30px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      position: relative;
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand p { font-size: .85rem; color: var(--text-muted); margin-top: 12px; line-height: 1.6; }
+    .footer-title { font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; font-family: var(--font-body); font-weight: 600; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; font-size: .85rem; transition: var(--transition); }
+    .footer-links a:hover { color: var(--copper); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      font-size: .8rem; color: var(--text-muted);
+    }
+    .footer-bottom a { color: var(--text-muted); text-decoration: none; }
+    .footer-bottom a:hover { color: var(--copper); }
+
+    /* ===== Mobile ===== */
+    @media (max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-title { font-size: 2.2rem; }
+      .hero-subtitle { margin-left: auto; margin-right: auto; }
+      .hero-cta { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-visual { display: none; }
+      .generator-layout { grid-template-columns: 1fr; text-align: center; }
+      .generator-copy { margin: 0 auto; text-align: center; }
+      .generator-panel { padding: 22px; text-align: left; }
+      .generator-controls { grid-template-columns: 1fr; }
+      .generator-controls .btn { justify-content: center; width: 100%; }
+      .generator-uploads { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
+      .platform-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+      .nav-links {
+        display: none;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(10,10,10,.95);
+        flex-direction: column; padding: 20px;
+        gap: 16px;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+      }
+      .nav-links.open { display: flex; }
+      .menu-toggle { display: block; }
+      .section-title { font-size: 1.8rem; }
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-title { font-size: 2.8rem; }
+    }
+
+    /* ===== YooKassa Modal ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.7);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #1a1a1a;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 12px; right: 16px;
+      background: none; border: none;
+      color: var(--text-muted); font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .modal-close:hover { color: var(--text); }
+    .modal h3 { font-size: 1.4rem; margin-bottom: 8px; }
+    .modal p { color: var(--text-muted); font-size: .9rem; margin-bottom: 24px; }
+    .modal-price {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--copper);
+      margin-bottom: 4px;
+    }
+    .modal-label { font-size: .85rem; color: var(--text-muted); margin-bottom: 28px; }
+    .modal-input {
+      width: 100%;
+      margin-bottom: 14px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+    .modal-input:focus { border-color: var(--copper); }
+    .modal-input::placeholder { color: var(--text-muted); }
+    .modal-methods { display: flex; flex-direction: column; gap: 12px; }
+    .modal-methods .btn { width: 100%; justify-content: center; padding: 14px 28px; font-size: 1rem; }
+  </style>
 </head>
 <body>
-    <!-- Навигация -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="#" class="logo">
-                <img src="images/logo.svg" alt="Ink Mirror" width="40" height="40">
-                <span>Ink Mirror</span>
-            </a>
-            <div class="nav-links">
-                <a href="#how-it-works">Как работает</a>
-                <a href="#gallery">Галерея</a>
-                <a href="#pricing">Цены</a>
-                <a href="#faq">FAQ</a>
-                <a href="#platforms">Платформы</a>
-                <a href="https://t.me/mynewtattoobot" class="btn btn-outline" target="_blank">Попробовать бесплатно</a>
-            </div>
-            <button class="menu-toggle" aria-label="Меню">☰</button>
-        </div>
-    </nav>
 
-    <!-- Герой-секция -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Преврати свою идею в <span class="highlight">уникальный эскиз тату</span> за 1 минуту</h1>
-                <p class="hero-subtitle">AI-генератор, который создаёт профессиональные дизайны по вашему описанию. Никаких шаблонов — только персонализированные работы.</p>
-                <div class="hero-cta">
-                    <a href="https://t.me/mynewtattoobot" class="btn btn-primary btn-large" target="_blank">🎨 Создать эскиз в Telegram</a>
-                    <a href="#how-it-works" class="btn btn-outline btn-large">Как это работает?</a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">1000+</span>
-                        <span class="stat-label">сгенерированных эскизов</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">4.8★</span>
-                        <span class="stat-label">средний рейтинг</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">98%</span>
-                        <span class="stat-label">довольных клиентов</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-image">
-                <div class="image-placeholder">
-                    <div class="placeholder-text">Пример процесса: Idea → Эскиз → Результат</div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- Background (CSS-only animation) -->
 
-    <!-- Как работает -->
-    <section id="how-it-works" class="section how-it-works">
-        <div class="container">
-            <h2 class="section-title">Как это работает?</h2>
-            <p class="section-subtitle">3 простых шага от идеи до готового эскиза</p>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3 class="step-title">Опиши идею</h3>
-                    <p class="step-description">Напиши, что хочешь нарисовать. Например: "дракон на плече в стиле трайбл" или "цветок лотоса на запястье"</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3 class="step-title">Выбери стиль</h3>
-                    <p class="step-description">Подбери подходящий стиль: реализм, минимализм, акварель, трайбл, олд скул и другие</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3 class="step-title">Получи результат</h3>
-                    <p class="step-description">ИИ создаст уникальный эскиз за 1 минуту. Можешь редактировать или сразу отправлять мастеру</p>
-                </div>
-            </div>
-            <div class="centered">
-                <a href="https://t.me/mynewtattoobot" class="btn btn-primary" target="_blank">Попробовать прямо сейчас</a>
-            </div>
-        </div>
-    </section>
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container">
+    <a href="https://coiqastore-ai.github.io/inkmirror-landing/" class="logo">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="19" stroke="#b87333" stroke-width="1.5"/>
+        <path d="M20 4C14 12 10 20 20 30C30 20 26 12 20 4Z" fill="#b87333" opacity=".5"/>
+        <path d="M10 16C6 22 12 30 20 34" stroke="#d49455" stroke-width="1.5" fill="none" opacity=".7"/>
+        <circle cx="24" cy="13" r="3" fill="#b87333" opacity=".4"/>
+      </svg>
+      <span>Ink <span class="accent">Mirror</span></span>
+    </a>
+    <div class="nav-links" id="nav">
+      <a href="#how">Процесс</a>
+      <a href="#gallery">Галерея</a>
+      <a href="#generator">Создать эскиз</a>
+      <a href="#pricing">Цены</a>
+      <a href="#faq">FAQ</a>
+      <a href="#generator" class="btn btn-primary">Создать эскиз</a>
+    </div>
+    <button class="menu-toggle" onclick="document.getElementById('nav').classList.toggle('open')">&#9776;</button>
+  </div>
+</nav>
 
-    <!-- Галерея работ -->
-    <section id="gallery" class="section gallery">
-        <div class="container">
-            <h2 class="section-title">Галерея работ</h2>
-            <p class="section-subtitle">Примеры эскизов, созданных нашими пользователями</p>
-            <div class="gallery-grid">
-                <!-- Галерея будет загружена через JavaScript -->
-                <div class="loading-gallery">Загрузка галереи...</div>
-            </div>
-            <div class="centered">
-                <a href="#upload-gallery" class="btn btn-outline">Загрузить свои работы в галерею</a>
-            </div>
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">&#10022; AI-Powered Tattoo Design</div>
+        <h1 class="hero-title">
+          Преврати идею в<br>
+          <span class="highlight">уникальный эскиз</span><br>
+          за 1 минуту
+        </h1>
+        <p class="hero-subtitle">
+          AI-генератор, который создаёт профессиональные дизайны тату по вашему описанию.
+          Никаких шаблонов — только персонализированные работы.
+        </p>
+        <div class="hero-cta">
+          <a href="#generator" class="btn btn-primary btn-large">&#127912; Создать эскиз</a>
+          <a href="#how" class="btn btn-copper btn-large">Как это работает</a>
         </div>
-    </section>
-
-    <!-- Цены и пакеты -->
-    <section id="pricing" class="section pricing">
-        <div class="container">
-            <h2 class="section-title">Цены и пакеты</h2>
-            <p class="section-subtitle">Выбери подходящий пакет для своих идей</p>
-            <div class="pricing-cards">
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>Старт</h3>
-                        <div class="price">249₽</div>
-                        <p class="price-subtitle">10 генераций</p>
-                    </div>
-                    <ul class="pricing-features">
-                        <li>✓ 10 уникальных эскизов</li>
-                        <li>✓ Все стили доступны</li>
-                        <li>✓ Редактирование готовых работ</li>
-                        <li>✓ Сохранение в галерее</li>
-                        <li>✗ PDF-экспорт</li>
-                    </ul>
-                    <a href="https://t.me/mynewtattoobot" class="btn btn-outline" target="_blank">Выбрать пакет</a>
-                </div>
-                <div class="pricing-card popular">
-                    <div class="popular-badge">Хит продаж</div>
-                    <div class="pricing-header">
-                        <h3>Топ</h3>
-                        <div class="price">549₽</div>
-                        <p class="price-subtitle">30 генераций</p>
-                    </div>
-                    <ul class="pricing-features">
-                        <li>✓ 30 уникальных эскизов</li>
-                        <li>✓ Все стили доступны</li>
-                        <li>✓ Редактирование готовых работ</li>
-                        <li>✓ Сохранение в галерее</li>
-                        <li>✓ PDF-экспорт результатов</li>
-                    </ul>
-                    <a href="https://t.me/mynewtattoobot" class="btn btn-primary" target="_blank">Выбрать пакет</a>
-                </div>
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>Профи</h3>
-                        <div class="price">1490₽</div>
-                        <p class="price-subtitle">100 генераций</p>
-                    </div>
-                    <ul class="pricing-features">
-                        <li>✓ 100 уникальных эскизов</li>
-                        <li>✓ Все стили доступны</li>
-                        <li>✓ Редактирование готовых работ</li>
-                        <li>✓ Сохранение в галерее</li>
-                        <li>✓ PDF-экспорт + приоритетная поддержка</li>
-                    </ul>
-                    <a href="https://t.me/mynewtattoobot" class="btn btn-outline" target="_blank">Выбрать пакет</a>
-                </div>
-            </div>
-            <div class="centered">
-                <p class="note">Первый эскиз — бесплатно для новых пользователей</p>
-            </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-num">1000+</div>
+            <div class="hero-stat-label">эскизов создано</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">4.8&#9733;</div>
+            <div class="hero-stat-label">средний рейтинг</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">98%</div>
+            <div class="hero-stat-label">довольных клиентов</div>
+          </div>
         </div>
-    </section>
-
-    <!-- Платформы -->
-    <section id="platforms" class="section platforms">
-        <div class="container">
-            <h2 class="section-title">Наши платформы</h2>
-            <p class="section-subtitle">Выбери удобный способ использования</p>
-            <div class="platform-cards">
-                <a href="https://t.me/mynewtattoobot" class="platform-card" target="_blank">
-                    <div class="platform-icon">✈️</div>
-                    <h3>Telegram бот</h3>
-                    <p>Полный функционал: генерация, редактирование, оплата, галерея</p>
-                    <div class="platform-cta">@mynewtattoobot →</div>
-                </a>
-                <a href="https://vk.com/club238303460" class="platform-card" target="_blank">
-                    <div class="platform-icon">👥</div>
-                    <h3>Группа VK</h3>
-                    <p>Примеры работ, сообщество, анонсы новых функций</p>
-                    <div class="platform-cta">Ink Mirror | Эскизы тату →</div>
-                </a>
-                <div class="platform-card">
-                    <div class="platform-icon">🌐</div>
-                    <h3>Лендинг</h3>
-                    <p>Общая информация, галерея, инструкции (вы здесь)</p>
-                    <div class="platform-cta">inkmirror.github.io</div>
-                </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-ring"></div>
+        <div class="hero-frame">
+          <div class="hero-frame-inner">
+            <div class="hero-icon">&#128395;&#65039;</div>
+            <div class="hero-quote">
+              "Описание идеи &rarr;<br>AI генерация &rarr;<br>Готовый эскиз"
             </div>
+            <div class="copper-line centered" style="margin-top:1.5rem"></div>
+            <div style="font-size:.75rem;color:var(--text-muted);font-family:var(--font-mono);margin-top:.5rem;letter-spacing:.05em">Ink Mirror</div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- FAQ -->
-    <section id="faq" class="section faq">
-        <div class="container">
-            <h2 class="section-title">Часто задаваемые вопросы</h2>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <h3 class="faq-question">Сколько стоит первый эскиз?</h3>
-                    <p class="faq-answer">Первый эскиз — абсолютно бесплатно для новых пользователей. Просто запусти бота и опиши свою идею.</p>
-                </div>
-                <div class="faq-item">
-                    <h3 class="faq-question">Какие стили доступны?</h3>
-                    <p class="faq-answer">Реализм, минимализм, акварель, трайбл, олд скул, нью скул, геометрия, дотворк и другие.</p>
-                </div>
-                <div class="faq-item">
-                    <h3 class="faq-question">Можно ли редактировать готовый эскиз?</h3>
-                    <p class="faq-answer">Да, после генерации можно вносить правки: изменить цвет, размер, детализацию или добавить элементы.</p>
-                </div>
-                <div class="faq-item">
-                    <h3 class="faq-question">Как оплатить пакет?</h3>
-                    <p class="faq-answer">Оплата проходит внутри Telegram бота через ЮKassa. Доступны карты, электронные кошельки, СБП.</p>
-                </div>
-                <div class="faq-item">
-                    <h3 class="faq-question">Можно ли использовать эскиз у тату-мастера?</h3>
-                    <p class="faq-answer">Конечно! Мы создаём профессиональные эскизы, готовые для переноса на кожу. Можно экспортировать в PDF.</p>
-                </div>
-            </div>
+<!-- Generator -->
+<section id="generator" class="section section-dark generator-section">
+  <div class="container">
+    <div class="generator-layout">
+      <div>
+        <span class="section-tag">Генерация на сайте</span>
+        <h2 class="section-title">Примерь тату прямо здесь</h2>
+        <p class="section-subtitle generator-copy">
+          Загрузи фото места на теле и эскиз, чтобы получить реалистичную визуализацию на коже. Без фото тела сайт сделает только эскиз.
+        </p>
+      </div>
+      <div class="generator-panel">
+        <div class="generator-topline">
+          <span>Баланс: <strong id="balance-count">2</strong></span>
+          <span id="session-label">Сайт / VK</span>
         </div>
-    </section>
-
-    <!-- Футер -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <a href="#" class="logo">
-                        <img src="images/logo.svg" alt="Ink Mirror" width="40" height="40">
-                        <span>Ink Mirror</span>
-                    </a>
-                    <p>AI-генератор эскизов тату.<br>Превращаем идеи в профессионалные дизайны с 2025 года.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Платформы</h4>
-                    <ul>
-                        <li><a href="https://t.me/mynewtattoobot" target="_blank">Telegram: @mynewtattoobot</a></li>
-                        <li><a href="https://vk.com/club238303460" target="_blank">VK: Ink Mirror | Эскизы тату</a></li>
-                        <li><a href="#">Лендинг: inkmirror.github.io</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Контакты</h4>
-                    <ul>
-                        <li>По вопросам сотрудничества: <a href="mailto:coiqastore.ai@gmail.com">coiqastore.ai@gmail.com</a></li>
-                        <li>Техническая поддержка: через Telegram бота</li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Подпишись</h4>
-                    <p>Будь в курсе новых функций и акций</p>
-                    <div class="social-links">
-                        <a href="https://t.me/mynewtattoobot" target="_blank">Telegram</a>
-                        <a href="https://vk.com/club238303460" target="_blank">VK</a>
-                        <a href="#" target="_blank">Instagram</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2025 Ink Mirror. Все права защищены.</p>
-                <p><a href="#">Политика конфиденциальности</a> • <a href="#">Условия использования</a></p>
-            </div>
+        <label class="generator-label" for="tattoo-prompt">Описание и пожелания</label>
+        <textarea id="tattoo-prompt" class="generator-textarea" rows="5" maxlength="700" placeholder="Например: разместить дракона на плече, сохранить тонкие линии, размер 12 см"></textarea>
+        <div class="generator-uploads">
+          <label class="upload-tile" id="body-upload-tile">
+            <span class="upload-title">Фото тела</span>
+            <span class="upload-hint" id="body-upload-hint">Куда примеряем тату</span>
+            <input id="body-photo" type="file" accept="image/*">
+          </label>
+          <label class="upload-tile" id="sketch-upload-tile">
+            <span class="upload-title">Эскиз</span>
+            <span class="upload-hint" id="sketch-upload-hint">Что переносим на кожу</span>
+            <input id="sketch-photo" type="file" accept="image/*">
+          </label>
+          <label class="upload-tile" id="reference-upload-tile">
+            <span class="upload-title">Референс</span>
+            <span class="upload-hint" id="reference-upload-hint">Опционально: стиль/пример</span>
+            <input id="reference-photo" type="file" accept="image/*">
+          </label>
         </div>
-    </footer>
+        <div class="generator-controls">
+          <div>
+            <label class="generator-label" for="tattoo-placement">Место / стиль</label>
+            <select id="tattoo-placement" class="generator-select">
+              <option value="auto">Авто</option>
+              <option value="forearm">Предплечье</option>
+              <option value="shoulder">Плечо</option>
+              <option value="wrist">Запястье</option>
+              <option value="chest">Грудь</option>
+              <option value="back">Спина</option>
+              <option value="leg">Нога</option>
+              <option value="sleeve">Рукав</option>
+            </select>
+          </div>
+          <button id="generate-btn" class="btn btn-primary btn-large" type="button" onclick="generateTattoo()">Сделать примерку</button>
+        </div>
+        <div id="generator-status" class="generator-status" aria-live="polite"></div>
+        <div id="generation-result" class="generation-result" hidden>
+          <img id="generated-image" alt="Визуализация тату">
+          <div class="generation-result-footer">
+            <span>Готовая визуализация</span>
+            <a id="generated-image-link" href="about:blank" target="_blank" rel="noopener">Открыть</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script src="js/script.js"></script>
-    <script src="js/gallery-loader.js"></script>
+<!-- How It Works -->
+<section id="how" class="section section-dark">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Процесс</span>
+      <h2 class="section-title">Как это работает</h2>
+      <p class="section-subtitle">Три простых шага от идеи до готового эскиза</p>
+    </div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-icon">&#128173;</div>
+        <h3 class="step-title">Опиши идею</h3>
+        <p class="step-desc">Напиши, что хочешь видеть: "дракон в стиле трайбл на плече" или "цветок лотоса на запястье"</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-icon">&#127912;</div>
+        <h3 class="step-title">Выбери стиль</h3>
+        <p class="step-desc">Реализм, минимализм, акварель, трайбл, олд скул и ещё 12 стилей на выбор</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-icon">&#10024;</div>
+        <h3 class="step-title">Получи результат</h3>
+        <p class="step-desc">ИИ создаст уникальный эскиз за минуту. Можно редактировать или сразу нести мастеру</p>
+      </div>
+    </div>
+    <div class="centered">
+      <a href="#generator" class="btn btn-primary btn-large">&#127912; Попробовать бесплатно</a>
+    </div>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section id="gallery" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Портфолио</span>
+      <h2 class="section-title">Галерея работ</h2>
+      <p class="section-subtitle">Примеры эскизов, созданных нашими пользователями</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item"><div class="gallery-placeholder"><span>&#128009;</span><p>Дракон трайбл</p></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder"><span>&#127800;</span><p>Цветок лотоса</p></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder"><span>&#129413;</span><p>Орёл реализм</p></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder"><span>&#127754;</span><p>Волна японская</p></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder"><span>&#127769;</span><p>Луна минимал</p></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder"><span>&#9884;&#65039;</span><p>Лилия акварель</p></div></div>
+    </div>
+    <p class="gallery-note">Больше примеров в нашем <a href="https://t.me/imaigeneration" target="_blank">Telegram-канале &rarr;</a></p>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing" class="section section-dark">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Тарифы</span>
+      <h2 class="section-title">Цены и пакеты</h2>
+      <p class="section-subtitle">Единые цены для сайта, Telegram и VK. Оплата картой, СБП или через бота.</p>
+    </div>
+    <div class="pricing-grid">
+      <!-- Мини -->
+      <div class="pricing-card">
+        <h3 class="pricing-name">Мини</h3>
+        <div class="pricing-price">149 &#8381;</div>
+        <div class="pricing-sub">3 генерации</div>
+        <ul class="pricing-features">
+          <li><span class="check">&#10003;</span> 3 уникальных эскиза</li>
+          <li><span class="check">&#10003;</span> Все стили доступны</li>
+          <li><span class="check">&#10003;</span> Редактирование работ</li>
+          <li><span class="cross">&#10007;</span> PDF-экспорт</li>
+        </ul>
+        <div class="pricing-actions">
+          <a href="https://t.me/mynewtattoobot" class="btn btn-tg btn-large" target="_blank">&#9992;&#65039; Telegram</a>
+          <button class="btn btn-vk" data-plan-id="mini" data-plan="Мини" data-price="149" data-description="Тариф Мини — 3 генерации">&#128179; Оплатить картой</button>
+        </div>
+      </div>
+      <!-- Старт -->
+      <div class="pricing-card">
+        <h3 class="pricing-name">Старт</h3>
+        <div class="pricing-price">399 &#8381;</div>
+        <div class="pricing-sub">10 генераций</div>
+        <ul class="pricing-features">
+          <li><span class="check">&#10003;</span> 10 уникальных эскизов</li>
+          <li><span class="check">&#10003;</span> Все стили доступны</li>
+          <li><span class="check">&#10003;</span> Редактирование работ</li>
+          <li><span class="check">&#10003;</span> Сохранение в галерее</li>
+        </ul>
+        <div class="pricing-actions">
+          <a href="https://t.me/mynewtattoobot" class="btn btn-tg btn-large" target="_blank">&#9992;&#65039; Telegram</a>
+          <button class="btn btn-vk" data-plan-id="start" data-plan="Старт" data-price="399" data-description="Тариф Старт — 10 генераций">&#128179; Оплатить картой</button>
+        </div>
+      </div>
+      <!-- Топ -->
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Хит продаж</div>
+        <h3 class="pricing-name">Топ</h3>
+        <div class="pricing-price">899 &#8381;</div>
+        <div class="pricing-sub">30 генераций</div>
+        <ul class="pricing-features">
+          <li><span class="check">&#10003;</span> 30 уникальных эскизов</li>
+          <li><span class="check">&#10003;</span> Все стили доступны</li>
+          <li><span class="check">&#10003;</span> Редактирование работ</li>
+          <li><span class="check">&#10003;</span> PDF-экспорт</li>
+          <li><span class="check">&#10003;</span> Сохранение в галерее</li>
+        </ul>
+        <div class="pricing-actions">
+          <a href="https://t.me/mynewtattoobot" class="btn btn-tg btn-large" target="_blank">&#9992;&#65039; Telegram</a>
+          <button class="btn btn-vk" data-plan-id="top" data-plan="Топ" data-price="899" data-description="Тариф Топ — 30 генераций">&#128179; Оплатить картой</button>
+        </div>
+      </div>
+      <!-- Рукав -->
+      <div class="pricing-card">
+        <h3 class="pricing-name">Рукав</h3>
+        <div class="pricing-price">699 &#8381;</div>
+        <div class="pricing-sub">8 генераций</div>
+        <ul class="pricing-features">
+          <li><span class="check">&#10003;</span> 1 рукав в 2 ракурсах</li>
+          <li><span class="check">&#10003;</span> До 3 правок</li>
+          <li><span class="check">&#10003;</span> PDF-экспорт</li>
+          <li><span class="check">&#10003;</span> Персональный стиль</li>
+        </ul>
+        <div class="pricing-actions">
+          <a href="https://t.me/mynewtattoobot" class="btn btn-tg btn-large" target="_blank">&#9992;&#65039; Telegram</a>
+          <button class="btn btn-vk" data-plan-id="sleeve" data-plan="Рукав" data-price="699" data-description="Тариф Рукав — 8 генераций">&#128179; Оплатить картой</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- YooKassa Info Section -->
+    <div class="vkpay-section">
+      <h3>&#128179; Как оплатить через ЮKassa</h3>
+      <p>Выбери тариф и оплати картой, через СБП, ЮMoney или электронный кошелёк. Если что-то пойдёт не так, Telegram-бот поможет продолжить покупку.</p>
+      <div class="vkpay-methods">
+        <a href="#pricing" class="btn btn-vk btn-large">&#128179; Выбрать тариф</a>
+        <a href="https://t.me/mynewtattoobot" class="btn btn-tg btn-large" target="_blank">&#9992;&#65039; Telegram бот</a>
+      </div>
+    </div>
+
+    <p class="pricing-note">2 бесплатных генерации для новых пользователей</p>
+  </div>
+</section>
+
+<!-- Platforms -->
+<section id="platforms" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Платформы</span>
+      <h2 class="section-title">Где мы есть</h2>
+      <p class="section-subtitle">Выбери удобный способ</p>
+    </div>
+    <div class="platform-grid">
+      <a href="https://t.me/mynewtattoobot" class="platform-card" target="_blank">
+        <div class="platform-icon">&#9992;&#65039;</div>
+        <h3 class="platform-title">Telegram</h3>
+        <p class="platform-desc">Полный функционал: генерация, оплата, галерея</p>
+        <span class="platform-cta">@mynewtattoobot &rarr;</span>
+      </a>
+      <a href="https://vk.com/club238303460" class="platform-card" target="_blank">
+        <div class="platform-icon">&#128101;</div>
+        <h3 class="platform-title">VK</h3>
+        <p class="platform-desc">Сообщество с примерами и вдохновением. Единые тарифы с сайтом и Telegram</p>
+        <span class="platform-cta">Вступить &rarr;</span>
+      </a>
+      <a href="https://coiqastore-ai.github.io/inkmirror-landing/" class="platform-card" target="_blank">
+        <div class="platform-icon">&#127760;</div>
+        <h3 class="platform-title">Сайт</h3>
+        <p class="platform-desc">Генерация, баланс и оплата без переходов</p>
+        <span class="platform-cta">coiqastore-ai.github.io/inkmirror-landing</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section section-dark">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Вопросы</span>
+      <h2 class="section-title">Часто задаваемые</h2>
+      <p class="section-subtitle">Всё, что нужно знать перед началом</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-q">Сколько стоит первый эскиз?</div>
+        <div class="faq-a">Первые 2 эскиза — абсолютно бесплатно. Просто запусти бота и опиши свою идею.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Какие стили доступны?</div>
+        <div class="faq-a">Реализм, минимализм, акварель, трайбл, олд скул, нью скул, геометрия, дотворк, блэкворк, нео-традишнл, японский, чикано, скетч, фэнтези, биомеханика.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Можно ли редактировать эскиз?</div>
+        <div class="faq-a">Да, после генерации доступно до 5 правок: изменить цвет, детализацию, добавить элементы.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Как оплатить через ЮKassa?</div>
+        <div class="faq-a">Нажми «Оплатить картой» на карточке тарифа. Сайт создаст платёж ЮKassa и перенаправит на безопасную страницу оплаты. Если платёж не открылся, перейди в Telegram-бота и выбери тот же тариф.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Эскиз готов для мастера?</div>
+        <div class="faq-a">Да! Профессиональные эскизы, готовые для переноса на кожу. Можно экспортировать в PDF.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Что такое пакет «Рукав»?</div>
+        <div class="faq-a">Специальный пакет для создания дизайна рукава: 1 рукав в 2 ракурсах + до 3 правок. Идеален для планирования большой работы.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- YooKassa Modal -->
+<div class="modal-overlay" id="vkpay-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeVkPay()">&times;</button>
+    <h3>&#128179; Оплата через ЮKassa</h3>
+    <p id="vkpay-desc">Вы выбрали тариф <strong id="vkpay-plan-name">Топ</strong>. После оплаты вернёмся на сайт.</p>
+    <div class="modal-price" id="vkpay-amount">899 &#8381;</div>
+    <div class="modal-label">Тариф <span id="vkpay-plan-label">Топ</span></div>
+    <input id="payment-contact" class="modal-input" type="text" inputmode="email" autocomplete="email" placeholder="Email или телефон для чека">
+    <div class="modal-methods">
+      <button id="yookassa-pay-btn" class="btn btn-vk btn-large" type="button" onclick="paySelectedPlan()">
+        &#128179; Оплатить картой (ЮKassa)
+      </button>
+      <a href="https://t.me/mynewtattoobot" class="btn btn-tg btn-large" target="_blank">
+        &#9992;&#65039; Оплатить через Telegram
+      </a>
+    </div>
+    <p style="margin-top:20px;font-size:.8rem;color:var(--text-muted);">
+      Принимаем карты Visa/MC, СБП, ЮMoney, электронные кошельки.<br>
+      После оплаты ЮKassa вернёт на сайт. Если оплата не открылась, напиши в <a href="https://t.me/mynewtattoobot" target="_blank" style="color:var(--copper);">Telegram-бот</a>.
+    </p>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="https://coiqastore-ai.github.io/inkmirror-landing/" class="logo">
+          <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="19" stroke="#b87333" stroke-width="1.5"/>
+            <path d="M20 4C14 12 10 20 20 30C30 20 26 12 20 4Z" fill="#b87333" opacity=".5"/>
+            <path d="M10 16C6 22 12 30 20 34" stroke="#d49455" stroke-width="1.5" fill="none" opacity=".7"/>
+            <circle cx="24" cy="13" r="3" fill="#b87333" opacity=".4"/>
+          </svg>
+          <span style="font-size:1.25rem">Ink <span class="accent">Mirror</span></span>
+        </a>
+        <p>AI-генератор эскизов тату. Превращаем идеи в профессиональные дизайны с 2025 года.</p>
+      </div>
+      <div>
+        <h4 class="footer-title">Платформы</h4>
+        <ul class="footer-links">
+          <li><a href="https://t.me/mynewtattoobot" target="_blank">Telegram бот</a></li>
+          <li><a href="https://vk.com/club238303460" target="_blank">VK группа</a></li>
+          <li><a href="https://coiqastore-ai.github.io/inkmirror-landing/" target="_blank">Веб-сайт</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-title">Инфо</h4>
+        <ul class="footer-links">
+          <li><a href="#how">Как работает</a></li>
+          <li><a href="#pricing">Цены</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-title">Контакты</h4>
+        <ul class="footer-links">
+          <li><a href="mailto:coiqastore.ai@gmail.com">coiqastore.ai@gmail.com</a></li>
+          <li><a href="https://t.me/mynewtattoobot" target="_blank">Поддержка в TG</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Ink Mirror. Все права защищены.</p>
+      <div>
+        <a href="https://coiqastore-ai.github.io/inkmirror-landing/#pricing" style="margin-right:1.5rem">Политика конфиденциальности</a>
+        <a href="https://coiqastore-ai.github.io/inkmirror-landing/#faq">Условия использования</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===== Ink Mirror API ===== */
+var API_BASE = 'https://ink-mirror-api.coiqastore.workers.dev';
+var selectedPaymentPlan = null;
+var userId = localStorage.getItem('inkmirror_user_id');
+var uploadImages = {
+  body_image: '',
+  sketch_image: '',
+  reference_image: ''
+};
+
+if (!userId) {
+  userId = (window.crypto && crypto.randomUUID)
+    ? crypto.randomUUID()
+    : 'web_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2);
+  localStorage.setItem('inkmirror_user_id', userId);
+}
+
+function setGeneratorStatus(message, type) {
+  var el = document.getElementById('generator-status');
+  if (!el) return;
+  el.textContent = message || '';
+  el.className = 'generator-status' + (type ? ' ' + type : '');
+}
+
+function setBalance(balance) {
+  var el = document.getElementById('balance-count');
+  if (el && typeof balance === 'number') el.textContent = balance;
+}
+
+async function registerSession() {
+  try {
+    var resp = await fetch(API_BASE + '/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId })
+    });
+    var data = await resp.json();
+    if (data.user_id) {
+      userId = data.user_id;
+      localStorage.setItem('inkmirror_user_id', userId);
+    }
+    if (typeof data.balance === 'number') setBalance(data.balance);
+  } catch (e) {
+    setGeneratorStatus('Сейчас не удалось подключиться к генератору. Попробуй обновить страницу чуть позже.', 'error');
+  }
+}
+
+async function getBalance() {
+  var resp = await fetch(API_BASE + '/api/balance?user_id=' + encodeURIComponent(userId));
+  var data = await resp.json();
+  if (typeof data.balance === 'number') setBalance(data.balance);
+  return typeof data.balance === 'number' ? data.balance : 0;
+}
+
+function openPaymentRequiredModal() {
+  openVkPay({
+    planId: 'start',
+    planName: 'Старт',
+    amount: 399,
+    description: 'Тариф Старт — 10 генераций'
+  });
+}
+
+function readImageAsDataUrl(file, maxSize) {
+  return new Promise(function(resolve, reject) {
+    if (!file) return resolve('');
+    if (!file.type || file.type.indexOf('image/') !== 0) {
+      reject(new Error('Загрузи изображение в формате JPG, PNG или WEBP.'));
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.onerror = function() { reject(new Error('Не удалось прочитать файл.')); };
+    reader.onload = function() {
+      var img = new Image();
+      img.onerror = function() { reject(new Error('Не удалось открыть изображение.')); };
+      img.onload = function() {
+        var scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+        var canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(img.width * scale));
+        canvas.height = Math.max(1, Math.round(img.height * scale));
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', 0.86));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function bindUpload(inputId, tileId, hintId, fieldName) {
+  var input = document.getElementById(inputId);
+  var tile = document.getElementById(tileId);
+  var hint = document.getElementById(hintId);
+  if (!input) return;
+  input.addEventListener('change', async function() {
+    var file = input.files && input.files[0];
+    if (!file) {
+      uploadImages[fieldName] = '';
+      if (tile) tile.classList.remove('has-file');
+      return;
+    }
+    try {
+      if (hint) hint.textContent = 'Готовим фото...';
+      uploadImages[fieldName] = await readImageAsDataUrl(file, 1024);
+      if (tile) tile.classList.add('has-file');
+      if (hint) hint.textContent = file.name;
+    } catch (e) {
+      uploadImages[fieldName] = '';
+      input.value = '';
+      if (tile) tile.classList.remove('has-file');
+      if (hint) hint.textContent = 'Попробуй другое фото';
+      alert(e.message || 'Не удалось подготовить фото.');
+    }
+  });
+}
+
+async function generateTattoo() {
+  var promptEl = document.getElementById('tattoo-prompt');
+  var placementEl = document.getElementById('tattoo-placement');
+  var button = document.getElementById('generate-btn');
+  var prompt = promptEl ? promptEl.value.trim() : '';
+  var placement = placementEl ? placementEl.value : 'auto';
+  var originalText = button ? button.innerHTML : '';
+
+  if (!prompt && !uploadImages.sketch_image) {
+    alert('Опиши идею или загрузи эскиз.');
+    return;
+  }
+
+  if (button) {
+    button.disabled = true;
+    button.innerHTML = '&#8987; Делаем примерку...';
+  }
+  setGeneratorStatus(uploadImages.body_image
+    ? 'Проверяем баланс и примеряем тату на фото. Реалистичная визуализация может занять пару минут.'
+    : 'Проверяем баланс и создаём эскиз. Это может занять пару минут.');
+
+  try {
+    var balance = await getBalance();
+    if (balance <= 0) {
+      setGeneratorStatus('Бесплатные генерации закончились. Выбери пакет, и баланс обновится после оплаты.', 'error');
+      openPaymentRequiredModal();
+      return;
+    }
+
+    var resp = await fetch(API_BASE + '/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: userId,
+        prompt: prompt,
+        placement: placement,
+        style: placement,
+        body_image: uploadImages.body_image,
+        sketch_image: uploadImages.sketch_image,
+        reference_image: uploadImages.reference_image
+      })
+    });
+    var data = await resp.json();
+
+    if (data.payment_required) {
+      setGeneratorStatus('Нужна оплата, чтобы продолжить генерацию.', 'error');
+      openPaymentRequiredModal();
+      return;
+    }
+
+    if (!resp.ok || !data.image_url) {
+      throw new Error(data.error || 'Ошибка генерации');
+    }
+
+    showResult(data.image_url, data.balance_remaining, Boolean(uploadImages.body_image));
+  } catch (e) {
+    setGeneratorStatus('Не получилось создать эскиз: ' + (e.message || 'попробуй ещё раз чуть позже'), 'error');
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.innerHTML = originalText;
+    }
+  }
+}
+
+function showResult(imageUrl, balanceRemaining, isPreview) {
+  var wrap = document.getElementById('generation-result');
+  var img = document.getElementById('generated-image');
+  var link = document.getElementById('generated-image-link');
+  if (img) img.src = imageUrl;
+  if (link) link.href = imageUrl;
+  if (wrap) wrap.hidden = false;
+  if (typeof balanceRemaining === 'number') setBalance(balanceRemaining);
+  setGeneratorStatus(isPreview ? 'Готово. Примерка на фото создана.' : 'Готово. Эскиз создан.', 'success');
+}
+
+bindUpload('body-photo', 'body-upload-tile', 'body-upload-hint', 'body_image');
+bindUpload('sketch-photo', 'sketch-upload-tile', 'sketch-upload-hint', 'sketch_image');
+bindUpload('reference-photo', 'reference-upload-tile', 'reference-upload-hint', 'reference_image');
+
+/* ===== YooKassa buttons (delegated) ===== */
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.btn-vk[data-plan]');
+  if (btn) {
+    openVkPay({
+      planId: btn.getAttribute('data-plan-id'),
+      planName: btn.getAttribute('data-plan'),
+      amount: parseInt(btn.getAttribute('data-price'), 10),
+      description: btn.getAttribute('data-description')
+    });
+  }
+});
+
+/* ===== FAQ Toggle ===== */
+document.querySelectorAll('.faq-q').forEach(function(q) {
+  q.addEventListener('click', function() { q.parentElement.classList.toggle('open'); });
+});
+
+/* ===== Smooth scroll ===== */
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    var t = document.querySelector(this.getAttribute('href'));
+    if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+
+/* ===== Mobile nav close on link click ===== */
+document.querySelectorAll('.nav-links a').forEach(function(a) {
+  a.addEventListener('click', function() { document.getElementById('nav').classList.remove('open'); });
+});
+
+/* ===== YooKassa Modal ===== */
+function openVkPay(plan) {
+  var modal = document.getElementById('vkpay-modal');
+  selectedPaymentPlan = plan;
+  var planName = plan.planName;
+  var amount = plan.amount;
+  document.getElementById('vkpay-plan-name').textContent = planName;
+  document.getElementById('vkpay-plan-label').textContent = planName;
+  document.getElementById('vkpay-amount').innerHTML = amount.toLocaleString('ru-RU') + ' &#8381;';
+
+  modal.classList.add('open');
+  return false;
+}
+
+async function paySelectedPlan() {
+  if (!selectedPaymentPlan) return;
+  var contact = document.getElementById('payment-contact').value.trim();
+  if (!contact) {
+    alert('Укажи email или телефон для чека.');
+    return;
+  }
+  await payWithYooKassa(
+    selectedPaymentPlan.planId,
+    selectedPaymentPlan.planName,
+    selectedPaymentPlan.amount,
+    selectedPaymentPlan.description,
+    contact
+  );
+}
+
+async function payWithYooKassa(planId, planName, amount, description, customerContact) {
+  var button = document.getElementById('yookassa-pay-btn');
+  var originalText = button.innerHTML;
+  button.disabled = true;
+  button.innerHTML = '&#8987; Создаём платёж...';
+
+  try {
+    var resp = await fetch(API_BASE + '/api/create-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: userId,
+        plan_id: planId,
+        plan_name: planName,
+        amount: amount,
+        description: description,
+        customer_contact: customerContact
+      })
+    });
+    var data = await resp.json();
+    if (data.payment_url) {
+      window.location.href = data.payment_url;
+      return;
+    }
+    alert('Ошибка создания платежа. Попробуй через Telegram.');
+  } catch (e) {
+    alert('Не удалось создать платёж. Напиши боту: @mynewtattoobot');
+  } finally {
+    button.disabled = false;
+    button.innerHTML = originalText;
+  }
+}
+
+function closeVkPay() {
+  document.getElementById('vkpay-modal').classList.remove('open');
+}
+
+/* ===== Close modal on overlay click ===== */
+document.getElementById('vkpay-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeVkPay();
+});
+
+/* ===== Close modal on Escape ===== */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeVkPay();
+});
+
+registerSession();
+
+if (new URLSearchParams(window.location.search).get('payment') === 'return') {
+  setGeneratorStatus('Вернулись с оплаты. Если платёж прошёл, баланс обновится после уведомления ЮKassa.', 'success');
+  setTimeout(function() { getBalance().catch(function() {}); }, 1500);
+}
+</script>
+
 </body>
 </html>
