@@ -29,8 +29,6 @@
       --text: #e8e0d8;
       --text-muted: #8a8078;
       --text-heading: #f5f0eb;
-      --vk-blue: #4680C2;
-      --tg-blue: #0088cc;
       --font-heading: 'Playfair Display', var(--font-heading-fallback);
       --font-body: 'Inter', var(--font-body-fallback);
       --font-mono: Menlo, Monaco, Consolas, monospace;
@@ -119,19 +117,19 @@
     .btn-outline:hover { border-color: var(--copper); color: var(--copper); }
     .btn-large { padding: 16px 36px; font-size: 1.05rem; }
 
-    /* ===== Payment Buttons ===== */
+    /* ===== Payment Buttons (в палитре сайта) ===== */
     .btn-vk {
-      background: linear-gradient(135deg, var(--vk-blue), #5b9bd5);
+      background: linear-gradient(135deg, var(--copper), var(--copper-light));
       color: #fff;
-      box-shadow: 0 4px 20px rgba(70,128,194,.3);
+      box-shadow: 0 4px 20px rgba(184,115,51,.3);
     }
-    .btn-vk:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(70,128,194,.45); }
+    .btn-vk:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(184,115,51,.45); }
     .btn-tg {
-      background: linear-gradient(135deg, var(--tg-blue), #00a3e6);
-      color: #fff;
-      box-shadow: 0 4px 20px rgba(0,136,204,.3);
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid rgba(232,224,216,.2);
     }
-    .btn-tg:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(0,136,204,.45); }
+    .btn-tg:hover { background: rgba(184,115,51,.08); border-color: var(--copper); color: var(--copper); transform: translateY(-2px); }
 
     /* ===== Navbar ===== */
     .navbar {
@@ -278,13 +276,6 @@
     .generator-textarea:focus,
     .generator-select:focus { border-color: var(--copper); }
     .generator-textarea::placeholder { color: var(--text-muted); }
-    .generator-controls {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 14px;
-      align-items: end;
-      margin-top: 16px;
-    }
     .generator-uploads {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -319,6 +310,13 @@
     .upload-tile.has-file {
       border-color: rgba(184,115,51,.55);
       background: rgba(184,115,51,.08);
+    }
+    .generator-controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: end;
+      margin-top: 16px;
     }
     .generator-status {
       min-height: 24px;
@@ -484,7 +482,7 @@
     .platform-desc { font-size: .9rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
     .platform-cta { font-size: .85rem; color: var(--copper); font-weight: 500; }
 
-    /* ===== YooKassa Section ===== */
+    /* ===== VK Pay Section ===== */
     .vkpay-section {
       background: rgba(70,128,194,.03);
       border: 1px solid rgba(70,128,194,.15);
@@ -581,7 +579,7 @@
       .hero-title { font-size: 2.8rem; }
     }
 
-    /* ===== YooKassa Modal ===== */
+    /* ===== VK Pay Modal ===== */
     .modal-overlay {
       display: none;
       position: fixed; inset: 0;
@@ -619,21 +617,90 @@
       margin-bottom: 4px;
     }
     .modal-label { font-size: .85rem; color: var(--text-muted); margin-bottom: 28px; }
-    .modal-input {
-      width: 100%;
-      margin-bottom: 14px;
-      padding: 14px 16px;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-      font: inherit;
-      outline: none;
-    }
-    .modal-input:focus { border-color: var(--copper); }
-    .modal-input::placeholder { color: var(--text-muted); }
     .modal-methods { display: flex; flex-direction: column; gap: 12px; }
     .modal-methods .btn { width: 100%; justify-content: center; padding: 14px 28px; font-size: 1rem; }
+
+    /* ===== Scroll Reveal Animations ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .gallery-item { overflow: hidden; }
+    .gallery-item .gallery-placeholder {
+      transition: transform .5s cubic-bezier(.4,0,.2,1);
+    }
+    .gallery-item:hover .gallery-placeholder {
+      transform: scale(1.1);
+    }
+    .gallery-item img {
+      transition: transform .5s cubic-bezier(.4,0,.2,1);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
+
+    /* ===== Hero Entrance Animation ===== */
+    @keyframes hero-in {
+      0% { opacity: 0; transform: translateY(30px); filter: blur(4px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+    .hero-content > * {
+      opacity: 0;
+      animation: hero-in .7s cubic-bezier(.16,1,.3,1) forwards;
+    }
+    .hero-content > :nth-child(1) { animation-delay: .1s; }
+    .hero-content > :nth-child(2) { animation-delay: .25s; }
+    .hero-content > :nth-child(3) { animation-delay: .4s; }
+    .hero-content > :nth-child(4) { animation-delay: .55s; }
+    .hero-content > :nth-child(5) { animation-delay: .7s; }
+    .hero-visual {
+      opacity: 0;
+      animation: hero-in .8s cubic-bezier(.16,1,.3,1) .4s forwards;
+    }
+
+    /* ===== Stagger ===== */
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .5s cubic-bezier(.4,0,.2,1), transform .5s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal-stagger.staggered > * {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-stagger.staggered > :nth-child(1) { transition-delay: 0s; }
+    .reveal-stagger.staggered > :nth-child(2) { transition-delay: .1s; }
+    .reveal-stagger.staggered > :nth-child(3) { transition-delay: .2s; }
+    .reveal-stagger.staggered > :nth-child(4) { transition-delay: .3s; }
+    .reveal-stagger.staggered > :nth-child(5) { transition-delay: .4s; }
+    .reveal-stagger.staggered > :nth-child(6) { transition-delay: .5s; }
+
+    /* ===== Counter Animation ===== */
+    @keyframes count-in {
+      0% { opacity: 0; transform: scale(.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .hero-stat {
+      opacity: 0;
+      animation: count-in .4s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    .hero-stat:nth-child(1) { animation-delay: .8s; }
+    .hero-stat:nth-child(2) { animation-delay: .95s; }
+    .hero-stat:nth-child(3) { animation-delay: 1.1s; }
+
+    /* ===== Floating ring ===== */
+    @keyframes float-ring {
+      0%,100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-12px) scale(1.02); }
+    }
+    .hero-ring {
+      animation: ring-pulse 4s ease-in-out infinite, float-ring 6s ease-in-out infinite !important;
+    }
   </style>
 </head>
 <body>
@@ -655,7 +722,7 @@
     <div class="nav-links" id="nav">
       <a href="#how">Процесс</a>
       <a href="#gallery">Галерея</a>
-      <a href="#generator">Создать эскиз</a>
+      <a href="#generator">Примерка</a>
       <a href="#pricing">Цены</a>
       <a href="#faq">FAQ</a>
       <a href="#generator" class="btn btn-primary">Создать эскиз</a>
@@ -680,7 +747,7 @@
           Никаких шаблонов — только персонализированные работы.
         </p>
         <div class="hero-cta">
-          <a href="#generator" class="btn btn-primary btn-large">&#127912; Создать эскиз</a>
+          <a href="#generator" class="btn btn-primary btn-large">&#127912; Сделать примерку</a>
           <a href="#how" class="btn btn-copper btn-large">Как это работает</a>
         </div>
         <div class="hero-stats">
@@ -716,7 +783,7 @@
 </section>
 
 <!-- Generator -->
-<section id="generator" class="section section-dark generator-section">
+<section id="generator" class="section section-dark reveal generator-section">
   <div class="container">
     <div class="generator-layout">
       <div>
@@ -752,7 +819,7 @@
         </div>
         <div class="generator-controls">
           <div>
-            <label class="generator-label" for="tattoo-placement">Место / стиль</label>
+            <label class="generator-label" for="tattoo-placement">Часть тела</label>
             <select id="tattoo-placement" class="generator-select">
               <option value="auto">Авто</option>
               <option value="forearm">Предплечье</option>
@@ -780,14 +847,14 @@
 </section>
 
 <!-- How It Works -->
-<section id="how" class="section section-dark">
+<section id="how" class="section section-dark reveal">
   <div class="container">
     <div class="section-header">
       <span class="section-tag">Процесс</span>
       <h2 class="section-title">Как это работает</h2>
       <p class="section-subtitle">Три простых шага от идеи до готового эскиза</p>
     </div>
-    <div class="steps">
+    <div class="steps reveal-stagger">
       <div class="step-card">
         <div class="step-num">01</div>
         <div class="step-icon">&#128173;</div>
@@ -814,14 +881,14 @@
 </section>
 
 <!-- Gallery -->
-<section id="gallery" class="section">
+<section id="gallery" class="section reveal">
   <div class="container">
     <div class="section-header">
       <span class="section-tag">Портфолио</span>
       <h2 class="section-title">Галерея работ</h2>
       <p class="section-subtitle">Примеры эскизов, созданных нашими пользователями</p>
     </div>
-    <div class="gallery-grid">
+    <div class="gallery-grid reveal-stagger">
       <div class="gallery-item"><div class="gallery-placeholder"><span>&#128009;</span><p>Дракон трайбл</p></div></div>
       <div class="gallery-item"><div class="gallery-placeholder"><span>&#127800;</span><p>Цветок лотоса</p></div></div>
       <div class="gallery-item"><div class="gallery-placeholder"><span>&#129413;</span><p>Орёл реализм</p></div></div>
@@ -834,14 +901,14 @@
 </section>
 
 <!-- Pricing -->
-<section id="pricing" class="section section-dark">
+<section id="pricing" class="section section-dark reveal">
   <div class="container">
     <div class="section-header">
       <span class="section-tag">Тарифы</span>
       <h2 class="section-title">Цены и пакеты</h2>
-      <p class="section-subtitle">Единые цены для сайта, Telegram и VK. Оплата картой, СБП или через бота.</p>
+      <p class="section-subtitle">Выбери удобный способ оплаты: Telegram (ЮKassa) или VK Pay</p>
     </div>
-    <div class="pricing-grid">
+    <div class="pricing-grid reveal-stagger">
       <!-- Мини -->
       <div class="pricing-card">
         <h3 class="pricing-name">Мини</h3>
@@ -855,13 +922,13 @@
         </ul>
         <div class="pricing-actions">
           <a href="https://t.me/mynewtattoobot" class="btn btn-tg btn-large" target="_blank">&#9992;&#65039; Telegram</a>
-          <button class="btn btn-vk" data-plan-id="mini" data-plan="Мини" data-price="149" data-description="Тариф Мини — 3 генерации">&#128179; Оплатить картой</button>
+          <button class="btn btn-vk" data-plan="Мини" data-price="149">&#128101; VK Pay</button>
         </div>
       </div>
       <!-- Старт -->
       <div class="pricing-card">
         <h3 class="pricing-name">Старт</h3>
-        <div class="pricing-price">399 &#8381;</div>
+        <div class="pricing-price">299 &#8381;</div>
         <div class="pricing-sub">10 генераций</div>
         <ul class="pricing-features">
           <li><span class="check">&#10003;</span> 10 уникальных эскизов</li>
@@ -871,14 +938,14 @@
         </ul>
         <div class="pricing-actions">
           <a href="https://t.me/mynewtattoobot" class="btn btn-tg btn-large" target="_blank">&#9992;&#65039; Telegram</a>
-          <button class="btn btn-vk" data-plan-id="start" data-plan="Старт" data-price="399" data-description="Тариф Старт — 10 генераций">&#128179; Оплатить картой</button>
+          <button class="btn btn-vk" data-plan="Старт" data-price="299">&#128101; VK Pay</button>
         </div>
       </div>
       <!-- Топ -->
       <div class="pricing-card featured">
         <div class="pricing-badge">Хит продаж</div>
         <h3 class="pricing-name">Топ</h3>
-        <div class="pricing-price">899 &#8381;</div>
+        <div class="pricing-price">1 499 &#8381;</div>
         <div class="pricing-sub">30 генераций</div>
         <ul class="pricing-features">
           <li><span class="check">&#10003;</span> 30 уникальных эскизов</li>
@@ -889,7 +956,7 @@
         </ul>
         <div class="pricing-actions">
           <a href="https://t.me/mynewtattoobot" class="btn btn-tg btn-large" target="_blank">&#9992;&#65039; Telegram</a>
-          <button class="btn btn-vk" data-plan-id="top" data-plan="Топ" data-price="899" data-description="Тариф Топ — 30 генераций">&#128179; Оплатить картой</button>
+          <button class="btn btn-vk" data-plan="Топ" data-price="1499">&#128101; VK Pay</button>
         </div>
       </div>
       <!-- Рукав -->
@@ -905,17 +972,17 @@
         </ul>
         <div class="pricing-actions">
           <a href="https://t.me/mynewtattoobot" class="btn btn-tg btn-large" target="_blank">&#9992;&#65039; Telegram</a>
-          <button class="btn btn-vk" data-plan-id="sleeve" data-plan="Рукав" data-price="699" data-description="Тариф Рукав — 8 генераций">&#128179; Оплатить картой</button>
+          <button class="btn btn-vk" data-plan="Рукав" data-price="699">&#128101; VK Pay</button>
         </div>
       </div>
     </div>
 
-    <!-- YooKassa Info Section -->
+    <!-- VK Pay Info Section -->
     <div class="vkpay-section">
-      <h3>&#128179; Как оплатить через ЮKassa</h3>
-      <p>Выбери тариф и оплати картой, через СБП, ЮMoney или электронный кошелёк. Если что-то пойдёт не так, Telegram-бот поможет продолжить покупку.</p>
+      <h3>&#128101; Как оплатить через VK Pay</h3>
+      <p>Выбери удобный способ оплаты. VK Pay принимает карты, СБП, VK Coin. После оплаты — напиши боту с квитанцией, и получишь доступ к эскизам.</p>
       <div class="vkpay-methods">
-        <a href="#pricing" class="btn btn-vk btn-large">&#128179; Выбрать тариф</a>
+        <a href="https://vk.com/im?sel=-238303460" class="btn btn-vk btn-large" target="_blank">&#128101; Написать в VK</a>
         <a href="https://t.me/mynewtattoobot" class="btn btn-tg btn-large" target="_blank">&#9992;&#65039; Telegram бот</a>
       </div>
     </div>
@@ -925,14 +992,14 @@
 </section>
 
 <!-- Platforms -->
-<section id="platforms" class="section">
+<section id="platforms" class="section reveal">
   <div class="container">
     <div class="section-header">
       <span class="section-tag">Платформы</span>
       <h2 class="section-title">Где мы есть</h2>
       <p class="section-subtitle">Выбери удобный способ</p>
     </div>
-    <div class="platform-grid">
+    <div class="platform-grid reveal-stagger">
       <a href="https://t.me/mynewtattoobot" class="platform-card" target="_blank">
         <div class="platform-icon">&#9992;&#65039;</div>
         <h3 class="platform-title">Telegram</h3>
@@ -942,13 +1009,13 @@
       <a href="https://vk.com/club238303460" class="platform-card" target="_blank">
         <div class="platform-icon">&#128101;</div>
         <h3 class="platform-title">VK</h3>
-        <p class="platform-desc">Сообщество с примерами и вдохновением. Единые тарифы с сайтом и Telegram</p>
+        <p class="platform-desc">Сообщество с примерами и вдохновением. Оплата через VK Pay</p>
         <span class="platform-cta">Вступить &rarr;</span>
       </a>
       <a href="https://coiqastore-ai.github.io/inkmirror-landing/" class="platform-card" target="_blank">
         <div class="platform-icon">&#127760;</div>
         <h3 class="platform-title">Сайт</h3>
-        <p class="platform-desc">Генерация, баланс и оплата без переходов</p>
+        <p class="platform-desc">Информация, галерея (вы здесь)</p>
         <span class="platform-cta">coiqastore-ai.github.io/inkmirror-landing</span>
       </a>
     </div>
@@ -956,7 +1023,7 @@
 </section>
 
 <!-- FAQ -->
-<section id="faq" class="section section-dark">
+<section id="faq" class="section section-dark reveal">
   <div class="container">
     <div class="section-header">
       <span class="section-tag">Вопросы</span>
@@ -977,8 +1044,8 @@
         <div class="faq-a">Да, после генерации доступно до 5 правок: изменить цвет, детализацию, добавить элементы.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Как оплатить через ЮKassa?</div>
-        <div class="faq-a">Нажми «Оплатить картой» на карточке тарифа. Сайт создаст платёж ЮKassa и перенаправит на безопасную страницу оплаты. Если платёж не открылся, перейди в Telegram-бота и выбери тот же тариф.</div>
+        <div class="faq-q">Как оплатить через VK Pay?</div>
+        <div class="faq-a">Нажми кнопку "VK Pay" на карточке тарифа, затем выбери удобный способ: оплата через бота Telegram (ЮKassa — карты, СБП, электронные кошельки) или напиши в наше сообщество VK для индивидуального заказа. VK Pay принимает карты, СБП, VK Coin.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Эскиз готов для мастера?</div>
@@ -992,26 +1059,25 @@
   </div>
 </section>
 
-<!-- YooKassa Modal -->
+<!-- VK Pay Modal -->
 <div class="modal-overlay" id="vkpay-modal">
   <div class="modal">
     <button class="modal-close" onclick="closeVkPay()">&times;</button>
-    <h3>&#128179; Оплата через ЮKassa</h3>
-    <p id="vkpay-desc">Вы выбрали тариф <strong id="vkpay-plan-name">Топ</strong>. После оплаты вернёмся на сайт.</p>
-    <div class="modal-price" id="vkpay-amount">899 &#8381;</div>
+    <h3>&#128101; Оплата через VK Pay</h3>
+    <p id="vkpay-desc">Вы выбрали тариф <strong id="vkpay-plan-name">Топ</strong></p>
+    <div class="modal-price" id="vkpay-amount">1 499 &#8381;</div>
     <div class="modal-label">Тариф <span id="vkpay-plan-label">Топ</span></div>
-    <input id="payment-contact" class="modal-input" type="text" inputmode="email" autocomplete="email" placeholder="Email или телефон для чека">
     <div class="modal-methods">
-      <button id="yookassa-pay-btn" class="btn btn-vk btn-large" type="button" onclick="paySelectedPlan()">
-        &#128179; Оплатить картой (ЮKassa)
-      </button>
+      <a id="vkpay-vk-link" href="https://vk.com/im?sel=-238303460" class="btn btn-vk btn-large" target="_blank">
+        &#128101; Оплатить через VK Pay
+      </a>
       <a href="https://t.me/mynewtattoobot" class="btn btn-tg btn-large" target="_blank">
         &#9992;&#65039; Оплатить через Telegram
       </a>
     </div>
     <p style="margin-top:20px;font-size:.8rem;color:var(--text-muted);">
-      Принимаем карты Visa/MC, СБП, ЮMoney, электронные кошельки.<br>
-      После оплаты ЮKassa вернёт на сайт. Если оплата не открылась, напиши в <a href="https://t.me/mynewtattoobot" target="_blank" style="color:var(--copper);">Telegram-бот</a>.
+      VK Pay принимает карты Visa/MC, СБП, VK Coin.<br>
+      После оплаты пришли квитанцию в <a href="https://vk.com/im?sel=-238303460" target="_blank" style="color:var(--copper);">сообщения VK</a>.
     </p>
   </div>
 </div>
@@ -1067,9 +1133,76 @@
 </footer>
 
 <script>
-/* ===== Ink Mirror API ===== */
+/* ===== Scroll Reveal (IntersectionObserver) ===== */
+(function() {
+  'use strict';
+
+  // Reveal sections
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    revealObserver.observe(el);
+  });
+
+  // Stagger grids
+  var staggerObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('staggered');
+        staggerObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -20px 0px' });
+
+  document.querySelectorAll('.reveal-stagger').forEach(function(el) {
+    staggerObserver.observe(el);
+  });
+
+  // Animated counters
+  function animateCounter(el) {
+    var text = el.textContent.trim();
+    var match = text.match(/^([\d.]+)(.*)$/);
+    if (!match) return;
+    var target = parseFloat(match[1]);
+    var suffix = match[2];
+    var duration = 1800;
+    var start = performance.now();
+    var isInt = Number.isInteger(target);
+
+    function tick(now) {
+      var t = Math.min((now - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - t, 3);
+      var curr = eased * target;
+      el.textContent = (isInt ? Math.round(curr) : curr.toFixed(1)) + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  var counterObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.hero-stat-num').forEach(function(el) {
+    counterObserver.observe(el);
+  });
+
+})();
+
+/* ===== Ink Mirror Generator API ===== */
 var API_BASE = 'https://ink-mirror-api.coiqastore.workers.dev';
-var selectedPaymentPlan = null;
 var userId = localStorage.getItem('inkmirror_user_id');
 var uploadImages = {
   body_image: '',
@@ -1122,12 +1255,7 @@ async function getBalance() {
 }
 
 function openPaymentRequiredModal() {
-  openVkPay({
-    planId: 'start',
-    planName: 'Старт',
-    amount: 399,
-    description: 'Тариф Старт — 10 генераций'
-  });
+  if (typeof openVkPay === 'function') openVkPay('Старт', 299);
 }
 
 function readImageAsDataUrl(file, maxSize) {
@@ -1241,7 +1369,7 @@ async function generateTattoo() {
 
     showResult(data.image_url, data.balance_remaining, Boolean(uploadImages.body_image));
   } catch (e) {
-    setGeneratorStatus('Не получилось создать эскиз: ' + (e.message || 'попробуй ещё раз чуть позже'), 'error');
+    setGeneratorStatus('Не получилось создать результат: ' + (e.message || 'попробуй ещё раз чуть позже'), 'error');
   } finally {
     if (button) {
       button.disabled = false;
@@ -1264,18 +1392,12 @@ function showResult(imageUrl, balanceRemaining, isPreview) {
 bindUpload('body-photo', 'body-upload-tile', 'body-upload-hint', 'body_image');
 bindUpload('sketch-photo', 'sketch-upload-tile', 'sketch-upload-hint', 'sketch_image');
 bindUpload('reference-photo', 'reference-upload-tile', 'reference-upload-hint', 'reference_image');
+registerSession();
 
-/* ===== YooKassa buttons (delegated) ===== */
+/* ===== VK Pay buttons (delegated) ===== */
 document.addEventListener('click', function(e) {
   var btn = e.target.closest('.btn-vk[data-plan]');
-  if (btn) {
-    openVkPay({
-      planId: btn.getAttribute('data-plan-id'),
-      planName: btn.getAttribute('data-plan'),
-      amount: parseInt(btn.getAttribute('data-price'), 10),
-      description: btn.getAttribute('data-description')
-    });
-  }
+  if (btn) openVkPay(btn.getAttribute('data-plan'), parseInt(btn.getAttribute('data-price')));
 });
 
 /* ===== FAQ Toggle ===== */
@@ -1296,67 +1418,19 @@ document.querySelectorAll('.nav-links a').forEach(function(a) {
   a.addEventListener('click', function() { document.getElementById('nav').classList.remove('open'); });
 });
 
-/* ===== YooKassa Modal ===== */
-function openVkPay(plan) {
+/* ===== VK Pay Modal ===== */
+function openVkPay(planName, amount) {
   var modal = document.getElementById('vkpay-modal');
-  selectedPaymentPlan = plan;
-  var planName = plan.planName;
-  var amount = plan.amount;
   document.getElementById('vkpay-plan-name').textContent = planName;
   document.getElementById('vkpay-plan-label').textContent = planName;
   document.getElementById('vkpay-amount').innerHTML = amount.toLocaleString('ru-RU') + ' &#8381;';
 
+  var vkLink = document.getElementById('vkpay-vk-link');
+  var message = encodeURIComponent('Хочу купить тату эскиз! Пакет: ' + planName + ' (' + amount + ' руб)');
+  vkLink.href = 'https://vk.com/im?sel=-238303460&message=' + message;
+
   modal.classList.add('open');
   return false;
-}
-
-async function paySelectedPlan() {
-  if (!selectedPaymentPlan) return;
-  var contact = document.getElementById('payment-contact').value.trim();
-  if (!contact) {
-    alert('Укажи email или телефон для чека.');
-    return;
-  }
-  await payWithYooKassa(
-    selectedPaymentPlan.planId,
-    selectedPaymentPlan.planName,
-    selectedPaymentPlan.amount,
-    selectedPaymentPlan.description,
-    contact
-  );
-}
-
-async function payWithYooKassa(planId, planName, amount, description, customerContact) {
-  var button = document.getElementById('yookassa-pay-btn');
-  var originalText = button.innerHTML;
-  button.disabled = true;
-  button.innerHTML = '&#8987; Создаём платёж...';
-
-  try {
-    var resp = await fetch(API_BASE + '/api/create-payment', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        user_id: userId,
-        plan_id: planId,
-        plan_name: planName,
-        amount: amount,
-        description: description,
-        customer_contact: customerContact
-      })
-    });
-    var data = await resp.json();
-    if (data.payment_url) {
-      window.location.href = data.payment_url;
-      return;
-    }
-    alert('Ошибка создания платежа. Попробуй через Telegram.');
-  } catch (e) {
-    alert('Не удалось создать платёж. Напиши боту: @mynewtattoobot');
-  } finally {
-    button.disabled = false;
-    button.innerHTML = originalText;
-  }
 }
 
 function closeVkPay() {
@@ -1371,15 +1445,7 @@ document.getElementById('vkpay-modal').addEventListener('click', function(e) {
 /* ===== Close modal on Escape ===== */
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeVkPay();
-});
-
-registerSession();
-
-if (new URLSearchParams(window.location.search).get('payment') === 'return') {
-  setGeneratorStatus('Вернулись с оплаты. Если платёж прошёл, баланс обновится после уведомления ЮKassa.', 'success');
-  setTimeout(function() { getBalance().catch(function() {}); }, 1500);
-}
-</script>
+});</script>
 
 </body>
 </html>
